@@ -1,0 +1,24 @@
+digraph {
+	Input [label="Input Text" fillcolor=lightblue shape=parallelogram style=filled]
+	Tokenization [label=Tokenization fillcolor=lightgray shape=box style=filled]
+	Input -> Tokenization
+	Embeddings [label="Word + Positional + Token Type Embeddings" fillcolor=lightyellow shape=box style=filled]
+	Tokenization -> Embeddings
+	Encoder [label="BERT Encoder (6 Layers)" fillcolor=lightcoral shape=box style=filled]
+	Embeddings -> Encoder
+	"Self-Attn" [label="Self-Attention (Q, K, V, Softmax)" fillcolor=lightpink shape=box style=filled]
+	FFN [label="Feed-Forward Network (GELU)" fillcolor=lightpink shape=box style=filled]
+	NormDropout [label="LayerNorm + Dropout" fillcolor=lightpink shape=box style=filled]
+	Encoder -> "Self-Attn"
+	"Self-Attn" -> FFN
+	FFN -> NormDropout
+	NormDropout -> Encoder
+	Pooler [label="Pooler Layer (Tanh)" fillcolor=lightgreen shape=box style=filled]
+	Encoder -> Pooler
+	Dropout [label="Dropout Layer" fillcolor=lightgray shape=box style=filled]
+	Pooler -> Dropout
+	Classifier [label="Classifier (Linear Layer)" fillcolor=lightblue shape=box style=filled]
+	Dropout -> Classifier
+	Output [label=Prediction fillcolor=lightblue shape=parallelogram style=filled]
+	Classifier -> Output
+}

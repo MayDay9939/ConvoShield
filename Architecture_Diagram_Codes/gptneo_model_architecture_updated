@@ -1,0 +1,39 @@
+digraph GPTNeoForSequenceClassification {
+	rankdir=TB size="12,12" splines=ortho
+	Model [label=GPTNeoForSequenceClassification fillcolor=lightblue fontsize=14 shape=box style=filled width=3]
+	Transformer [label=GPTNeoModel fillcolor=lightgrey fontsize=14 shape=box style=filled width=2.5]
+	Model -> Transformer
+	wte [label="Word Embedding
+(50257, 768)" shape=ellipse width=2]
+	wpe [label="Position Embedding
+(2048, 768)" shape=ellipse width=2]
+	drop [label="Dropout
+(p=0.0)" shape=ellipse width=1.5]
+	Transformer -> wte
+	Transformer -> wpe
+	Transformer -> drop
+	Transformer -> h
+	{
+		fontsize=12 label="Repeated 12 times" style=dashed
+		h [label="GPTNeoBlock x12" fillcolor=lightgrey fontsize=14 shape=box style=filled width=2.5]
+	}
+	Block [label=GPTNeoBlock fillcolor=lightyellow fontsize=12 shape=box style=filled width=2]
+	h -> Block [label="Example structure of one block" style=dashed]
+	ln1 [label="LayerNorm
+(768)" shape=ellipse width=1.5]
+	attn [label=GPTNeoAttention shape=ellipse width=1.8]
+	ln2 [label="LayerNorm
+(768)" shape=ellipse width=1.5]
+	mlp [label=GPTNeoMLP shape=ellipse width=1.8]
+	Block -> ln1
+	Block -> attn
+	Block -> ln2
+	Block -> mlp
+	ln_f [label="LayerNorm
+(768)" shape=ellipse width=2]
+	h -> ln_f
+	score [label="Linear
+(768 → 2)" fillcolor=lightgreen shape=ellipse style=filled width=2]
+	ln_f -> score
+	score -> Model [label=Output]
+}
